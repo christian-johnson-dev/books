@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSCode Snippet Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            display: grid;
+            gap: 20px;
+        }
+
+        label, legend {
+            font-weight: bold;
+        }
+        #scope>label{
+          margin-right: 15px;
+          display: inline-flex; /* keeps checkboxes with their labels when wrapping */
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            resize: none;
+        }
+
+        #output {
+            white-space: pre-wrap;
+            font-family: monospace;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>VS Code Snippet Generator</h1>
+    <form id="snippetForm">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+
+        <fieldset>
+        <legend for="scope">Scope:</legend>
+        <div id="scope"></div>
+        </fieldset>
+
+        <label for="prefix">Prefix:</label>
+        <input type="text" id="prefix" name="prefix" required>
+
+        <label for="body">Body:</label>
+        <textarea id="body" name="body" required></textarea>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required>
+    </form>
+    <h2>Output:</h2><div id="alert" style="display:none; color: rgb(189, 16, 16); font-weight: bold;">All fields must be filled in and at least one checkbox checked for the output to work.</div>
+    <button id="copyButton" type="button">Copy to Clipboard</button>
+    <pre id="output"></pre>
+    <script>
+        const commonLanguages = [
+            {id: "javascript", name: "JavaScript"},
+            {id: "javascriptreact", name: "JS React (JSX)"},
+            {id: "python", name: "Python"},
+            {id: "html", name: "HTML"},
+            {id: "css", name: "CSS"},
+            {id: "typescript", name: "TypeScript"},
+            {id: "typescriptreact", name: "TS React (TSX)"},
+            {id: "c", name: "C"},
+            {id: "cpp", name: "C++"},
+            {id: "csharp", name: "C#"},
+            {id: "java", name: "Java"},
+            {id: "php", name: "PHP"},
+            {id: "ruby", name: "Ruby"},
+            {id: "go", name: "Go"},
+            {id: "swift", name: "Swift"},
+            {id: "kotlin", name: "Kotlin"},
+            {id: "scala", name: "Scala"},
+            {id: "perl", name: "Perl"},
+            {id: "lua", name: "Lua"},
+            {id: "groovy", name: "Groovy"},
+            {id: "r", name: "R"},
+            {id: "powershell", name: "PowerShell"},
+            {id: "bash", name: "Bash"},
+            {id: "batch", name: "Batch"},
+            {id: "sql", name: "SQL"},
+            {id: "markdown", name: "Markdown"},
+            {id: "json", name: "JSON"},
+            {id: "yaml", name: "YAML"},
+            {id: "xml", name: "XML"},
+            {id: "dockerfile", name: "Dockerfile"},
+            {id: "ansible", name: "Ansible"}
+        ];
+
+        // scopeDiv creates a checkbox for every language in commonLanguages.
+// The checkbox is placed inside a label, and the label is placed inside
+// the scopeDiv element.
+// The checkbox has the name "scope" and the value "lang.id"
+
+const scopeDiv = document.getElementById("scope");
+        commonLanguages.forEach(lang => {
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.name = "scope";
+            checkbox.value = lang.id;
+            const label = document.createElement("label");
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(lang.name));
+            scopeDiv.appendChild(label);
+        });
+
+        const form = document.getElementById("snippetForm");
+        form.addEventListener("input", () => {
+            const title = document.getElementById("title").value;
+            const selectedScopes = Array.from(document.querySelectorAll("#scope input:checked")).map(checkbox => checkbox.value).join(",");
+            const prefix = document.getElementById("prefix").value;
+            const body = document.getElementById("body").value.split("\n");
+            const description = document.getElementById("description").value;
+
+            const output = `//PLACE THIS IN YOUR GLOBAL SNIPPETS FILE BY GOING TO PREFERENCES > USER SNIPPETS > NEW GLOBAL SNIPPETS FILE (if you don't have one already) AND PASTE THE CODE BELOW INTO THE FILE BETWEEN THE FIRST SQUARE BRACKETS
+
+  "${title}": {
+    "scope": "${selectedScopes}",
+    "prefix": "${prefix}",
+    "body": [
+${body.map(line => '      "' + line.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '",').join("\n")}
+    ],
+    "description": "${description}"
+  }`;
+            document.getElementById("output").textContent = output;
+        });
+        function hasValidInput() {
+            const title = document.getElementById("title").value.trim();
+            const selectedScopes = Array.from(document.querySelectorAll("#scope input:checked")).map(checkbox => checkbox.value);
+            const prefix = document.getElementById("prefix").value.trim();
+            const body = document.getElementById("body").value.trim();
+            const description = document.getElementById("description").value.trim();
+
+            return title && selectedScopes.length > 0 && prefix && body && description;
+        }
+
+        form.addEventListener("input", () => {
+            const alertElement = document.getElementById("alert");
+            const outputElement = document.getElementById("output");
+
+            if (hasValidInput()) {
+                // Generate output
+                // ...
+                alertElement.style.display = "none";
+                outputElement.style.display = "block";
+            } else {
+                alertElement.style.display = "block";
+                outputElement.style.display = "none";
+            }
+        });
+        document.getElementById("copyButton").addEventListener("click", () => {
+            const outputElement = document.getElementById("output");
+
+            // Create a temporary textarea element for copying the text
+            const tempTextArea = document.createElement("textarea");
+            tempTextArea.value = outputElement.textContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempTextArea);})
+    </script>
+</body>
+</html>
