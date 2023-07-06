@@ -11,12 +11,17 @@ const BookCreate = ({ onCreate }) => {
     setTitle(""); //? Resets the input field.
   };
   return (
-    <div>
-      <h2>Add a book</h2>
+    <div className="book-create">
+      <h3>Add a book</h3>
       <form onSubmit={handleSubmit}>
         <label htmlFor="">Title:</label>
-        <input type="text" value={title} onChange={handleChange} />
-        <button>Submit</button>
+        <input
+          type="text"
+          value={title}
+          onChange={handleChange}
+          className="input"
+        />
+        <button className="button">Submit</button>
       </form>
     </div>
   );
