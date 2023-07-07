@@ -7,13 +7,22 @@ const App = () => {
 
   const createBook = (title) => {
     console.log("Need to add book with:", title);
+    const updatedBooks = [
+      ...books,
+      {
+        id: Math.round(Math.random() * 1000000),
+        title: title,
+      },
+    ];
+    console.log(updatedBooks);
+    setBooks(updatedBooks);
   };
   const editBook = () => {};
   const deleteBook = () => {};
   return (
     <div className="App">
       <h1>Rollcall</h1>
-      <BookList />
+      <BookList books={books} />
       <BookCreate onCreate={createBook} />
     </div>
   );
