@@ -1,3 +1,8 @@
 {
-  "books": []
+  "books": [
+    {
+      "title": "The Fellowship of the Ring",
+      "id": 1
+    }
+  ]
 }
