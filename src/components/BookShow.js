@@ -1,13 +1,17 @@
 import BookEdit from "./BookEdit";
 import { useState } from "react";
 
-const BookShow = ({ book, onDelete }) => {
+const BookShow = ({ book, onDelete, onEdit }) => {
   const [showEdit, setShowEdit] = useState(false);
   const toggleEdit = () => {
     setShowEdit(!showEdit);
   };
   const handleDelete = () => {
     onDelete(book.id);
+  };
+  const handleEditSubmit = (id, newTitle) => {
+    onEdit(id, newTitle);
+    setShowEdit(false);
   };
   return (
     <div className="book-show">
@@ -19,7 +23,11 @@ const BookShow = ({ book, onDelete }) => {
           Delete
         </button>
       </div>
-      {showEdit ? <BookEdit /> : <h3>{book.title}</h3>}
+      {showEdit ? (
+        <BookEdit book={book} onSubmit={handleEditSubmit} />
+      ) : (
+        <h3>{book.title}</h3>
+      )}
     </div>
   );
 };
