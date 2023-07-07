@@ -17,7 +17,21 @@ const App = () => {
     console.log(updatedBooks);
     setBooks(updatedBooks);
   };
-  const editBook = () => {};
+  const editBookById = (id, newTitle) => {
+    const updatedBooks = books.map((book) => {
+      if (book.id === id) {
+        //? If the book id matches the id passed in, then update the title.
+        return {
+          ...book,
+          title: newTitle,
+        };
+      }
+      //? Otherwise, just return the book as is.
+      return book;
+    });
+    setBooks(updatedBooks);
+  };
+
   const deleteBookById = (id) => {
     console.log("Need to delete book with id:", id);
     const updatedBooks = books.filter((book) => book.id !== id); //
@@ -26,7 +40,7 @@ const App = () => {
   return (
     <div className="App">
       <h1>Rollcall</h1>
-      <BookList books={books} onDelete={deleteBookById} />
+      <BookList books={books} onDelete={deleteBookById} onEdit={editBookById} />
       <BookCreate onCreate={createBook} />
     </div>
   );
