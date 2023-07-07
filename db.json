@@ -3,6 +3,18 @@
     {
       "title": "The Fellowship of the Ring",
       "id": 1
+    },
+    {
+      "title": "Testing",
+      "id": 2
+    },
+    {
+      "title": "Sir Gawain and the Green Knight",
+      "id": 3
+    },
+    {
+      "title": "Gingerfruit",
+      "id": 4
     }
   ]
 }
