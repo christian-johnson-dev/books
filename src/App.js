@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BookCreate from "./components/BookCreate";
 import BookList from "./components/BookList";
 import axios from "axios";
 
 const App = () => {
   const [books, setBooks] = useState([]); //* Not a book but an array of all the books.
+
+  const fetchBooks = async () => {
+    const response = await axios.get("http://localhost:3001/books");
+    setBooks(response.data);
+  };
+
+  useEffect(() => {
+    fetchBooks();
+  }, []);
 
   const createBook = async (title) => {
     const response = await axios.post("http://localhost:3001/books", {
@@ -14,16 +23,19 @@ const App = () => {
     setBooks(updatedBooks);
   };
 
-  const editBookById = (id, newTitle) => {
+  const editBookById = async (id, newTitle) => {
+    const response = await axios.patch(`http://localhost:3001/books/${id}`, {
+      title: newTitle,
+    });
+    console.log("Updated title: ", response.data.title);
+
     const updatedBooks = books.map((book) => {
       if (book.id === id) {
-        //? If the book id matches the id passed in, then update the title.
         return {
           ...book,
           title: newTitle,
         };
       }
-      //? Otherwise, just return the book as is.
       return book;
     });
     setBooks(updatedBooks);
