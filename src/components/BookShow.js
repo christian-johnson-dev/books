@@ -23,6 +23,10 @@ const BookShow = ({ book, onDelete, onEdit }) => {
           Delete
         </button>
       </div>
+      <img
+        src={`https://picsum.photos/seed/${book.id}/300/200`}
+        alt="bookcover"
+      />
       {showEdit ? (
         <BookEdit book={book} onSubmit={handleEditSubmit} />
       ) : (
