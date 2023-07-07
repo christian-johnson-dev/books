@@ -31,7 +31,6 @@ const App = () => {
     });
     setBooks(updatedBooks);
   };
-
   const deleteBookById = (id) => {
     console.log("Need to delete book with id:", id);
     const updatedBooks = books.filter((book) => book.id !== id); //
@@ -39,7 +38,7 @@ const App = () => {
   };
   return (
     <div className="App">
-      <h1>Rollcall</h1>
+      <h1>Reading List</h1>
       <BookList books={books} onDelete={deleteBookById} onEdit={editBookById} />
       <BookCreate onCreate={createBook} />
     </div>
