@@ -1,9 +1,11 @@
 import BookShow from "./BookShow";
 
-const BookList = ({ books, onDelete }) => {
+const BookList = ({ books, onDelete, onEdit }) => {
   // Map over the books and display a BookShow component for each book.
   const bookList = books.map((book) => {
-    return <BookShow key={book.id} book={book} onDelete={onDelete} />;
+    return (
+      <BookShow key={book.id} book={book} onDelete={onDelete} onEdit={onEdit} />
+    );
   });
 
   return (
