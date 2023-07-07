@@ -1,11 +1,25 @@
 import BookEdit from "./BookEdit";
+import { useState } from "react";
 
-const BookShow = () => {
-  // Component Logic
+const BookShow = ({ book, onDelete }) => {
+  const [showEdit, setShowEdit] = useState(false);
+  const toggleEdit = () => {
+    setShowEdit(!showEdit);
+  };
+  const handleDelete = () => {
+    onDelete(book.id);
+  };
   return (
-    <div>
-      <h2>BookShow reporting for duty</h2>
-      <BookEdit />
+    <div className="book-show">
+      <div className="actions">
+        <button className="edit" onClick={toggleEdit}>
+          edit
+        </button>
+        <button className="delete " onClick={handleDelete}>
+          Delete
+        </button>
+      </div>
+      {showEdit ? <BookEdit /> : <h3>{book.title}</h3>}
     </div>
   );
 };
