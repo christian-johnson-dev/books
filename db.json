@@ -1,20 +1,12 @@
 {
   "books": [
     {
-      "title": "The Fellowship of the Ring",
+      "title": "Shadow of Northbridge",
       "id": 1
     },
     {
-      "title": "Testing",
+      "title": "A comfortable Matrix",
       "id": 2
-    },
-    {
-      "title": "Sir Gawain and the Green Knight",
-      "id": 3
-    },
-    {
-      "title": "Gingerfruit",
-      "id": 4
     }
   ]
 }
