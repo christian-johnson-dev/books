@@ -1,13 +1,16 @@
 import { useState } from "react";
+import useBooksContext from "../hooks/use-books-context";
 
-const BookCreate = ({ onCreate }) => {
+const BookCreate = () => {
   const [title, setTitle] = useState("");
+  const { createBook } = useBooksContext(); //? Destructure the createBook function from the BooksContext.
+
   const handleChange = (event) => {
     setTitle(event.target.value); //? Updates the title state.
   };
   const handleSubmit = (event) => {
     event.preventDefault(); //? Prevents the page from refreshing.
-    onCreate(title); //? Calls the function passed down from App.js
+    createBook(title); //? Calls the createBook function from the BooksContext.
     setTitle(""); //? Resets the input field.
   };
   return (
